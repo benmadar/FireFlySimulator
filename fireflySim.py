@@ -73,7 +73,7 @@ def updateBoid(boid: Boid, allBoids: list[Boid], cursorPosition):
         boid.velocity = np.clip(tempVelocity, -randomMaxSpeed, randomMaxSpeed)
         boid.position += boid.velocity
     
-
+# Calculates Seperation
 def calculateSeperation(boid: Boid, neighbors: list[Boid]):
     seperationForce = np.zeros_like(boid.position)
     if (len(neighbors) <= 0):
@@ -86,7 +86,7 @@ def calculateSeperation(boid: Boid, neighbors: list[Boid]):
     
     return seperationForce
 
-
+# Calculates Alignment
 def calculateAlignment(boid: Boid, neighbors: list[Boid]):
     if (len(neighbors) <= 0):
         return np.zeros_like(boid.position)
@@ -100,7 +100,7 @@ def calculateAlignment(boid: Boid, neighbors: list[Boid]):
     return alignmentForce
 
 
-
+# Calculates Cohesion
 def calculateCohesion(boid: Boid, neighbors: list[Boid]):
     if (len(neighbors) <= 0):
         return np.zeros_like(boid.position)
@@ -113,6 +113,7 @@ def calculateCohesion(boid: Boid, neighbors: list[Boid]):
     cohesionForce = avgPosition - boid.position
     return cohesionForce
 
+# Makes the flies in the environment
 def drawFlies(screen, boids: list[Boid]):
     for curr in boids:
         pygame.draw.circle(screen, (255, 255, 0), (curr.position[0], curr.position[1]), 3)
@@ -126,11 +127,10 @@ def main():
     pygame.display.set_caption("Firefly Sim")
 
 
-
+    # Use bayou image in folder and scales it up
     bayouImage = pygame.image.load("bayou4.jpg")
     bayouImage = pygame.transform.scale(bayouImage, (1434, 717))
 
-    # pygame.mouse.set_visible(False)
 
     # Number of boids in sim
     boidCount = 70
@@ -150,8 +150,8 @@ def main():
         # Black Background
         screen.fill((0, 0, 0))
 
+        # Add image to background
         screen.blit(bayouImage, (0, 0))
-        # screen.blit(honeyPotCursor, cursor_position)
 
         # Update all boids
         for currBoid in boids:
@@ -162,6 +162,7 @@ def main():
         # Updates display
         pygame.display.flip()
 
+        # Frames per second
         pygame.time.Clock().tick(50)
 
 
